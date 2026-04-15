@@ -10,16 +10,9 @@ import java.time.LocalDateTime;
 /**
  * User — MongoDB collection: "users"
  *
- * Central authentication document. Every person who accesses the
- * system (athlete or trainer) has exactly one User record.
- *
- * SDD Entity fields:
- *   userId    → MongoDB @Id (auto-generated ObjectId)
- *   userName  → unique username used at login (UC001)
- *   email     → unique email address
- *   password  → BCrypt-hashed password
- *   fullName  → display name shown on dashboard
- *   userRole  → ATHLETE | TRAINER  (from UC002 role selection)
+ * profilePicture → base64 data URL (e.g. "data:image/jpeg;base64,...")
+ *                  stored directly in the document.
+ *                  Max recommended size: 200 KB after compression.
  */
 @Data
 @Builder
@@ -37,13 +30,16 @@ public class User {
     @Indexed(unique = true)
     private String email;
 
-    private String password;      // BCrypt hash — never stored plain
+    private String password;
 
     private String fullName;
 
     private String phoneNumber;
 
-    private UserRole userRole;    // ATHLETE | TRAINER
+    /** Base64 data URL of the user's profile picture */
+    private String profilePicture;
+
+    private UserRole userRole;
 
     @Builder.Default
     private boolean enabled = true;

@@ -6,14 +6,15 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Trainer — MongoDB collection: "trainers"
  *
- * Created automatically when a user registers with role = TRAINER.
- * Linked 1-to-1 with User via userId.
- *
- * SDD Entity fields: availability, expertise, experience, certifications
+ * availability  → List of AvailabilitySlot (day + startTime + endTime)
+ * certifications → List of CertificationFile (name + fileUrl + uploadedAt)
+ * expertise      → free text
+ * experience     → free text
  */
 @Data
 @Builder
@@ -26,16 +27,43 @@ public class Trainer {
     private String id;
 
     @Indexed(unique = true)
-    private String userId;          // FK → User._id
+    private String userId;
 
-    private String availability;    // e.g. "Mon-Fri 8am-5pm"
-    private String expertise;       // e.g. "Strength & Conditioning, Forwards"
-    private String experience;      // e.g. "5 years UTM Pirates coach"
-    private String certifications;  // e.g. "World Rugby Level 2"
+    /** Structured weekly schedule — replaces plain String availability */
+    private List<AvailabilitySlot> availabilitySlots;
+
+    private String expertise;
+    private String experience;
+
+    /** Uploaded certification files */
+    private List<CertificationFile> certificationFiles;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    // ── Embedded documents ────────────────────────────────────────────────
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AvailabilitySlot {
+        private String day;        // "MONDAY", "TUESDAY" … "SUNDAY"
+        private String startTime;  // "08:00"
+        private String endTime;    // "17:00"
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CertificationFile {
+        private String name;        // e.g. "World Rugby Level 2"
+        private String fileName;    // original filename
+        private String fileUrl;     // stored path / base64 data URL
+        private String uploadedAt;  // ISO timestamp string
+    }
 }

@@ -1,8 +1,8 @@
 /**
  * auth.js — Pinia Store for Authentication State
- *
  * UC001: login(), logout()
  * UC002: register()
+ * UC003: updateProfilePicture() — keeps avatar in sync after profile save
  */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
@@ -10,26 +10,19 @@ import authService from '@/services/authService'
 import router from '@/router'
 
 export const useAuthStore = defineStore('auth', () => {
-  // ── State ────────────────────────────────────────────────────────────────
   const token   = ref(localStorage.getItem('access_token') || null)
   const user    = ref(JSON.parse(localStorage.getItem('user') || 'null'))
   const loading = ref(false)
   const error   = ref(null)
 
-  // ── Getters ──────────────────────────────────────────────────────────────
   const isAuthenticated = computed(() => !!token.value)
   const isAthlete       = computed(() => user.value?.userRole === 'ATHLETE')
   const isTrainer       = computed(() => user.value?.userRole === 'TRAINER')
   const fullName        = computed(() => user.value?.fullName || '')
   const username        = computed(() => user.value?.username || '')
   const userRole        = computed(() => user.value?.userRole || null)
+  const profilePicture  = computed(() => user.value?.profilePicture || null)
 
-  // ── Actions ───────────────────────────────────────────────────────────────
-
-  /**
-   * UC001: Login
-   * Normal Flow Steps 4–7 — verify credentials, store JWT, redirect
-   */
   async function login(credentials) {
     loading.value = true
     error.value   = null
@@ -39,11 +32,9 @@ export const useAuthStore = defineStore('auth', () => {
         const d = response.data
         token.value = d.accessToken
         user.value  = {
-          userId:   d.userId,
-          username: d.username,
-          fullName: d.fullName,
-          userRole: d.userRole,
-          email:    d.email
+          userId: d.userId, username: d.username,
+          fullName: d.fullName, userRole: d.userRole,
+          email: d.email, profilePicture: d.profilePicture || null
         }
         localStorage.setItem('access_token', d.accessToken)
         localStorage.setItem('user', JSON.stringify(user.value))
@@ -53,8 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
       }
     } catch (err) {
       if (err.response?.status === 401) {
-        error.value = err.response.data?.message
-          || 'Invalid username or password. Please try again.'
+        error.value = err.response.data?.message || 'Invalid username or password. Please try again.'
       } else if (!err.response) {
         error.value = 'Connection error. Please check your internet connection.'
       } else {
@@ -65,62 +55,41 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  /**
-   * UC002: Register
-   * Normal Flow Steps 6–9 — submit form, create account, redirect to login
-   *
-   * @returns {{ fieldErrors: Object|null }}
-   *   fieldErrors: map of { fieldName: errorMessage } from Spring @Valid (AF1)
-   *   null if no per-field errors
-   */
   async function register(formData) {
     loading.value = true
     error.value   = null
-
     try {
       const response = await authService.register(formData)
       if (response.success) {
-        // UC002 Post-condition: account created → redirect to login with success notice
-        await router.push({
-          name:  'Login',
-          query: { registered: 'true', username: response.data?.username }
-        })
+        await router.push({ name: 'Login', query: { registered: 'true', username: response.data?.username } })
         return { fieldErrors: null }
       }
       error.value = response.message || 'Registration failed.'
       return { fieldErrors: null }
-
     } catch (err) {
-      // AF1: Spring @Valid annotation failures (422) — field-level errors
       if (err.response?.status === 422) {
         error.value = err.response.data?.message || 'Please correct the errors below.'
         return { fieldErrors: err.response.data?.data || {} }
       }
-      // AF2: Duplicate email or username (409 Conflict)
       if (err.response?.status === 409) {
-        error.value = err.response.data?.message
-          || 'This email or username is already registered.'
+        error.value = err.response.data?.message || 'This email or username is already registered.'
         return { fieldErrors: null }
       }
-      // AF1: Custom validation — password mismatch (400)
       if (err.response?.status === 400) {
         error.value = err.response.data?.message || 'Please check your input.'
         return { fieldErrors: null }
       }
-      // EF1: No internet connection
       if (!err.response) {
         error.value = 'Connection error. Please check your internet connection.'
         return { fieldErrors: null }
       }
       error.value = 'An unexpected error occurred. Please try again later.'
       return { fieldErrors: null }
-
     } finally {
       loading.value = false
     }
   }
 
-  /** UC001 Logout */
   async function logout() {
     await authService.logout()
     token.value = null
@@ -130,14 +99,27 @@ export const useAuthStore = defineStore('auth', () => {
     await router.push({ name: 'Login' })
   }
 
+  /**
+   * Called by ProfileView after a successful profile save
+   * so the sidebar avatar and AppLayout stay in sync.
+   */
+  function syncUserFromProfile(profileData) {
+    if (!user.value || !profileData) return
+    user.value = {
+      ...user.value,
+      fullName:       profileData.fullName,
+      email:          profileData.email,
+      profilePicture: profileData.profilePicture || null
+    }
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
   function clearError() { error.value = null }
 
   return {
-    // State
     token, user, loading, error,
-    // Getters
-    isAuthenticated, isAthlete, isTrainer, fullName, username, userRole,
-    // Actions
-    login, register, logout, clearError
+    isAuthenticated, isAthlete, isTrainer,
+    fullName, username, userRole, profilePicture,
+    login, register, logout, clearError, syncUserFromProfile
   }
 })

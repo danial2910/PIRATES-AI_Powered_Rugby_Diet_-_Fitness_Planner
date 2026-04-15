@@ -43,7 +43,10 @@
       <!-- User chip at bottom -->
       <div class="sidebar-footer">
         <div class="user-chip">
-          <div class="avatar">{{ initials }}</div>
+          <div class="avatar">
+            <img v-if="authStore.profilePicture" :src="authStore.profilePicture" alt="Profile" class="avatar-img" />
+            <span v-else>{{ initials }}</span>
+          </div>
           <div class="user-info">
             <p class="user-name">{{ authStore.fullName }}</p>
             <p class="user-role">{{ authStore.userRole }}</p>
@@ -231,6 +234,13 @@ async function handleLogout() {
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; font-weight: 600;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .user-info { min-width: 0; }
