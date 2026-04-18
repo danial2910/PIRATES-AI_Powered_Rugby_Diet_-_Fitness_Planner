@@ -1,4 +1,7 @@
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\model\Trainer.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\controller\WorkoutPlanController.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\model\WorkoutPlan.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\model\MealPlan.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\service\AuthService.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\RegisterRequest.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\repository\UserRepository.java
@@ -9,14 +12,21 @@ C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\jav
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\RegisterResponse.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\exception\DuplicateResourceException.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\UpdateAthleteRequest.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\service\WorkoutPlanService.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\security\JwtAuthenticationFilter.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\MealPlanResponse.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\controller\MealPlanController.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\LoginResponse.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\controller\ProfileController.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\repository\MealPlanRepository.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\RugbyPlannerApplication.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\service\OllamaService.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\repository\TrainerRepository.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\exception\GlobalExceptionHandler.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\WorkoutPlanRequest.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\controller\AuthController.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\service\RegisterService.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\service\MealPlanService.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\config\SecurityConfig.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\model\Athlete.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\service\ProfileService.java
@@ -25,4 +35,7 @@ C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\jav
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\exception\ValidationException.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\security\UserDetailsServiceImpl.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\LoginRequest.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\MealPlanRequest.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\repository\WorkoutPlanRepository.java
+C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\dto\WorkoutPlanResponse.java
 C:\Users\Danial\Documents\FYP\rugby-planner-full\rugby-full\backend\src\main\java\com\utm\rugbyplanner\model\User.java
